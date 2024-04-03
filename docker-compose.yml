@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  postgres:
+    image: "postgres:9.6-alpine"
+    container_name: postgres
+    volumes:
+      - .postgres-data:/var/lib/postgresql/data
+      - ./src/main/resources/db:/docker-entrypoint-initdb.d/
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=orders
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+  api:
+    build: .
+    container_name: api-app
+    ports:
+      - 8080:8080
+    volumes:
+      - .config:/workspace/.config
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://postgres:5432/orders?user=admin&password=admin
+      - PROJECT_ID=teste-354018
+      - SUBSCRIPTION_ID=teste-sub
+      - GOOGLE_APPLICATION_CREDENTIALS=/workspace/.config/credentials-test.json
+    depends_on:
+      postgres:
+        condition: service_healthy
