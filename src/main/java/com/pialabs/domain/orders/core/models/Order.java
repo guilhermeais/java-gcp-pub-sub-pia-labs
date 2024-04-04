@@ -18,7 +18,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class Order {
-
   private String uuid;
   private Date createdAt;
   private Date processedAt = Date.from(

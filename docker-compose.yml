@@ -29,9 +29,9 @@ services:
       - .config:/workspace/.config
     environment:
       - POSTGRES_URL=jdbc:postgresql://postgres:5432/orders?user=admin&password=admin
-      - PROJECT_ID=teste-354018
-      - SUBSCRIPTION_ID=teste-sub
-      - GOOGLE_APPLICATION_CREDENTIALS=/workspace/.config/credentials-test.json
+      - PROJECT_ID=serjava-demo
+      - SUBSCRIPTION_ID=pia-labs-sub
+      - GOOGLE_APPLICATION_CREDENTIALS=/workspace/.config/serjava-demo-fe42c58ff8a9.json
     depends_on:
       postgres:
         condition: service_healthy

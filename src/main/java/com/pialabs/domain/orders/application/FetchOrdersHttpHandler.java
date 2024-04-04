@@ -1,19 +1,9 @@
 package com.pialabs.domain.orders.application;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializer;
 import com.pialabs.domain.orders.application.presenter.OrderPresenter;
 import com.pialabs.domain.orders.core.models.FetchOrdersCommand;
 import com.pialabs.domain.orders.core.models.Order;
 import com.pialabs.domain.orders.core.ports.incoming.FetchOrders;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import spark.Request;
 import spark.Response;

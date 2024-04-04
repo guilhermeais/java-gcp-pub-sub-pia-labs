@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS customers (
 
 CREATE TABLE IF NOT EXISTS categories (
     id VARCHAR(255) PRIMARY KEY,
-    sub_category_id VARCHAR(255) NOT NULL
+    sub_category_id VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS products (
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS products (
 );
 
 CREATE TABLE IF NOT EXISTS orders (
-    uuid UUID PRIMARY KEY,
+    uuid VARCHAR(36) PRIMARY KEY,
     created_at TIMESTAMP NOT NULL,
     processed_at TIMESTAMP NOT NULL,
     type VARCHAR(255) NOT NULL,
@@ -23,11 +23,12 @@ CREATE TABLE IF NOT EXISTS orders (
 );
 
 CREATE TABLE IF NOT EXISTS items (
-    id INT PRIMARY KEY,
-    order_uuid UUID,
+    id INT,
+    order_uuid VARCHAR(36),
     product_id VARCHAR(255),
     quantity INT NOT NULL,
     category_id VARCHAR(255),
+    PRIMARY KEY (id, order_uuid),
     FOREIGN KEY (order_uuid) REFERENCES orders(uuid),
     FOREIGN KEY (product_id) REFERENCES products(id),
     FOREIGN KEY (category_id) REFERENCES categories(id)
