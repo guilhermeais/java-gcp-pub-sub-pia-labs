@@ -7,6 +7,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializer;
+import com.pialabs.domain.orders.application.presenter.OrderPresenter;
 import com.pialabs.domain.orders.core.models.FetchOrdersCommand;
 import com.pialabs.domain.orders.core.models.Order;
 import com.pialabs.domain.orders.core.ports.incoming.FetchOrders;
@@ -20,27 +21,6 @@ import spark.Response;
 public class FetchOrdersHttpHandler {
 
   private final FetchOrders fetchOrders;
-  private final Gson gson = new GsonBuilder()
-    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-    .registerTypeAdapter(
-      Date.class,
-      (JsonSerializer<Date>) (src, typeOfSrc, context) ->
-        new JsonPrimitive(
-          new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(src)
-        )
-    )
-    .registerTypeAdapter(
-      Date.class,
-      (JsonDeserializer<Date>) (json, typeOfT, context) -> {
-        try {
-          return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-            .parse(json.getAsString());
-        } catch (ParseException e) {
-          throw new JsonParseException(e);
-        }
-      }
-    )
-    .create();
 
   public FetchOrdersHttpHandler(FetchOrders fetchOrders) {
     this.fetchOrders = fetchOrders;
@@ -77,7 +57,7 @@ public class FetchOrdersHttpHandler {
       List<Order> orders = fetchOrders.handle(command);
       response.type("application/json");
       response.status(200);
-      String res = gson.toJson(orders);
+      String res = OrderPresenter.toJson(orders);
 
       System.out.println("[FetchOrdersHttpHandler] Orders fetched: " + res);
       return res;
