@@ -1,6 +1,8 @@
 package com.pialabs.domain.orders.core.models;
 
 import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +21,9 @@ public class Order {
 
   private String uuid;
   private Date createdAt;
-  private Date processedAt = new Date();
+  private Date processedAt = Date.from(
+    ZonedDateTime.now(ZoneId.of("America/Sao_Paulo")).toInstant()
+  );
   private String type;
   private Customer customer;
   private List<Item> items = new ArrayList<>();
